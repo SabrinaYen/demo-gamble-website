@@ -329,7 +329,7 @@ function scanLoop() {
           stopCamera();
 
           // optional loading overlay, then redirect
-          showLoadingAndRedirect("success.html"); // or setTimeout(() => location.href="success.html", 800);
+          showLoadingAndRedirect("#success"); // or setTimeout(() => location.href="success.html", 800);
         }
       }
     }
