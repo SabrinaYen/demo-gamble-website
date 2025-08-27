@@ -109,7 +109,7 @@ document.querySelectorAll(".nav-qr").forEach((a) => {
     openQR();
   });
 });
-document.getElementById("qrBackBtn").addEventListener("click", closeQR);
+if(document.getElementById("qrBackBtn")) document.getElementById("qrBackBtn").addEventListener("click", closeQR);
 
 function openQR() {
   dashboardEl.style.display = "none";
