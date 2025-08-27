@@ -16,6 +16,12 @@
           <button type="submit">SUBMIT</button>
       </form>
     </div>
-    <script src="./assets/js/index.js" defer></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const script = document.createElement("script");
+        script.src = "./assets/js/index.js"; // path to your JS file
+        document.body.appendChild(script);
+      });
+    </script>
   </body>
 </html>
