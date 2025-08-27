@@ -9,7 +9,7 @@ html,body {
     justify-content: center;
     height: 100%;
     width: 100%;
-    background:  url('../images/bg.avif') no-repeat center/cover;
+    background:  url('../images/bg.jpg') no-repeat center/cover;
     color: #dc1414;
 }
 form {
