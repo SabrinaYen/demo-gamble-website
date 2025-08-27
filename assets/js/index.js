@@ -109,7 +109,11 @@ document.querySelectorAll(".nav-qr").forEach((a) => {
     openQR();
   });
 });
-if(document.getElementById("qrBackBtn")) document.getElementById("qrBackBtn").addEventListener("click", closeQR);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("qrBackBtn");
+  if (btn) btn.addEventListener("click", closeQR);
+});
 
 function openQR() {
   dashboardEl.style.display = "none";
