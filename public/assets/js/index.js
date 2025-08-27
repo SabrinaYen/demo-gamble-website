@@ -64,10 +64,11 @@ async function ensureVoices() {
   });
 }
 
-async function speakMessage(message) {
+async function speakMessage(message, isFast) {
   await ensureVoices();
   const u = new SpeechSynthesisUtterance(message);
   if (selectedVoice) u.voice = selectedVoice;
+  if (!isFast) u.rate = 0.7;
   u.lang = "en-US";
   speechSynthesis.cancel();
   setTimeout(() => speechSynthesis.speak(u), 0);
@@ -92,8 +93,8 @@ function showPopup(game) {
   speakMessage(message); // runs after a user click
 }
 
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
+function closePopup(isNpc) {
+  document.getElementById(isNpc ? "popup-npc" : "popup").style.display = "none";
   speechSynthesis.cancel();
 }
 
@@ -118,7 +119,6 @@ function openQR() {
 }
 
 function closeQR() {
-  console.log("hi");
   stopCamera();
   qrScreenEl.style.display = "none";
   dashboardEl.style.display = "block";
@@ -291,7 +291,8 @@ function scanLoop() {
 
             // Redirect after 2 seconds
             setTimeout(() => {
-              window.location.href = "success.html"; // Change to your success page
+              const payment = sessionStorage.getItem('payment') || 0;
+              window.location.href = `success.html`; // Change to your success page
             }, 2000);
           }
         } catch (e) {
@@ -307,21 +308,20 @@ function scanLoop() {
           // lock so we don't process again
           isProcessingScan = true;
 
-          console.log("QR:", code.data);
-
           // Extract an amount (handles "50", "RM50", "pay=50.25", etc.)
           const m = String(code.data).match(/([0-9]+(?:\.[0-9]{1,2})?)/);
           const amount = m ? parseFloat(m[1]) : NaN;
-
+          const isDeduct = m.input.includes('-')
           if (!isNaN(amount)) {
             const balanceEl = document.querySelector("#balance-display");
             if (balanceEl) {
               const current =
                 parseFloat(balanceEl.textContent.replace(/[^\d.]/g, "")) || 0;
-              const next = Math.max(0, current - amount); // clamp at 0 if you want
+              const next = isDeduct ? Math.max(0, current - amount) : Math.max(0, current + amount) ; // clamp at 0 if you want
               balanceEl.textContent = next.toFixed(2);
               // persist so success.html can show it
               localStorage.setItem("balance", balanceEl.textContent);
+              sessionStorage.setItem("payment",m.input);
             }
           }
 
@@ -354,7 +354,9 @@ function showLoadingAndRedirect(url, delayMs = 1200) {
     <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
   `;
   document.body.appendChild(el);
-  setTimeout(() => { window.location.href = url; }, delayMs);
+  setTimeout(() => {
+    window.location.href = url;
+  }, delayMs);
 }
 // Buttons
 startBtn.addEventListener("click", startCamera);
@@ -382,3 +384,79 @@ fileInput.addEventListener("change", (e) => {
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) stopCamera();
 });
+
+function showPopupNPC(gameSeq, isMoveStep) {
+  const title = document.getElementById("popup-npc-title");
+  const text = document.getElementById("popup-npc-text");
+  const popup = document.getElementById("popup-npc");
+  const popupGameImg = document.getElementById("popup-game-img");
+  const popupContainer = document.getElementById("popup-container-npc");
+  const message = [
+    {
+      title: "Chasing Fortune",
+      desc1:
+        "Each group begins with 5 tokens, and each draw costs 1 token.\n\nIf you draw a WIN card, you get back your original token plus one extra (+1 token).\nIf you draw a LOSE card, you lose 1 token (–1 token).\n\nIf you draw a NEARLY WIN card, you only get back your original token (0 token).\n\nIf you draw a BIG WIN card, you get back your original token plus two extra (+2 tokens).\n",
+      desc2: "Congratulations, now please move to the next station.",
+      pic: "./assets/images/npc1.jpeg",
+    },
+    {
+      title: "Roulette",
+      desc: "Place a bet on a number or colour, then spin the wheel.",
+      pic: "./assets/images/Roulette.webp",
+    },
+    {
+      title: "",
+      desc1: `Congratulations you have made it this far!
+Now‘s your chance to double however much token you have in hand.
+You have 1 chance to press the buzzers. 
+2 of 3 of the buzzers are “DOUBLE IT ALL” and one is “ LOSE IT ALL “   
+You win when you hear “ DOUBLE IT ALL” and lose all your money if you hear “ LOSE IT ALL. `,
+      pic: "./assets/images/blackjack-icon-4.jpg",
+      picInstruct1: "./assets/images/step3-instruct1.jpeg",
+      picInstruct2: "./assets/images/step3-instruct2.jpeg",
+      picInstruct3: "./assets/images/step3-instruct3.jpeg",
+    },
+    {
+      title: "Lucky Spin",
+      desc: "Spin the wheel and try your luck for instant prizes!",
+      pic: "./assets/images/lucky-spin.avif",
+    },
+  ];
+
+  const showMessage = !isMoveStep
+    ? message[gameSeq].desc1
+    : message[gameSeq].desc2;
+  const showTitle = !isMoveStep ? `${message[gameSeq].title} Instructions` : "";
+  switch (gameSeq) {
+    case 0:
+      popupContainer.innerHTML = `<div class="img-container">
+          <img id="popup-game-img" src="${message[gameSeq].pic}" />
+        </div>
+        <div class="npc-desc">
+          <h2 id="popup-npc-title">${showTitle}</h2>
+          <h5 id="popup-npc-text">${showMessage}</h5>
+        </div>`;
+      break;
+    case 2:
+      popupContainer.innerHTML = `
+            <div class="img-container">
+              <img id="popup-game-img" src="${message[gameSeq].picInstruct1}" />
+            </div>
+             <div class="img-container">
+              <img id="popup-game-img" src="${message[gameSeq].picInstruct2}" />
+            </div>
+             <div class="img-container">
+              <img id="popup-game-img" src="${message[gameSeq].picInstruct3}" />
+            </div>
+            <div class="npc-desc">
+              <h5 id="popup-npc-text">${showMessage}</h5>
+            </div>`;
+      break;
+    default:
+      popupContainer.innerHTML = "";
+  }
+
+  popup.style.display = "flex";
+
+  speakMessage(showMessage, true); // runs after a user click
+}
