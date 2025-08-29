@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: #1a1a1a;
+  background: black url("../images/bg.jpg") no-repeat center/100% 100%;
   color: #fff;
   font-family: Arial, sans-serif;
   padding-bottom: 70px; /* for mobile bottom nav */
@@ -25,14 +25,14 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
-  padding: 0 20px;
+  padding: 20px;
 }
 
 .game-card {
   background-color: #333;
   padding: 15px;
   border-radius: 10px;
-  width: 120px;
+  width: 40%;
   box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
   transition: transform 0.2s;
 }
@@ -117,7 +117,7 @@ body {
   padding: 20px;
   border-radius: 10px;
   width: 90%;
-  max-width: 400px;
+  max-width: 60%;
   color: white;
   text-align: center;
   box-shadow: 0 0 15px gold;

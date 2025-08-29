@@ -57,38 +57,38 @@
       </div>
 
       <div class="header">🎰 Casino 1234</div>
-      <div class="balance">💰 Balance: $<span id="balance-display"></span></div>
+      <div class="balance">💰 Token: <span id="balance-display">0</span></div>
 
       <div class="game-area">
         <div class="game-card">
           <img
-            src="./assets/images/slotmachine1.png"
-            alt="Slot Game"
-            onclick="showPopup('Slot Machine')"
+            src="./assets/images/station1.jpeg"
+            alt="Chasing Fortune"
+            onclick="showPopup(0)"
           />
-          <p>Slot Machine</p>
+          <p>Chasing Fortune</p>
         </div>
         <div class="game-card">
           <img
-            src="./assets/images/Roulette.webp"
-            alt="Roulette"
-            onclick="showPopup('Roulette')"
+            src="./assets/images/station2.jpeg"
+            alt="Bet your way out"
+            onclick="showPopup(1)"
           />
-          <p>Roulette</p>
+          <p>Bet your way out</p>
         </div>
         <div class="game-card">
           <img
-            src="./assets/images/blackjack-icon-4.jpg"
+            src="./assets/images/station3.jpeg"
             alt="Blackjack"
-            onclick="showPopup('Blackjack')"
+            onclick="showPopup(2)"
           />
           <p>Blackjack</p>
         </div>
         <div class="game-card">
           <img
-            src="./assets/images/lucky-spin.avif"
+            src="./assets/images/station4.jpeg"
             alt="Lucky Spin"
-            onclick="showPopup('Lucky Spin')"
+            onclick="showPopup(3)"
           />
           <p>Lucky Spin</p>
         </div>
@@ -226,11 +226,10 @@
     <script src="./assets/js/index.js"></script>
     <script>
       // Load balance from localStorage
-      const balance = localStorage.getItem("balance")
+      const balance = localStorage.getItem("balance") || 0
       if (balance) {
         document.getElementById("balance-display").textContent = balance;
       } else {
-        localStorage.setItem("balance","1000");
         document.getElementById("balance-display").textContent = balance;
       }
     </script>

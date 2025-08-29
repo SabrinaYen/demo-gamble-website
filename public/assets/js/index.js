@@ -68,32 +68,54 @@ async function speakMessage(message, isFast) {
   await ensureVoices();
   const u = new SpeechSynthesisUtterance(message);
   if (selectedVoice) u.voice = selectedVoice;
-  if (!isFast) u.rate = 0.7;
+  u.rate = 0.7;
   u.lang = "en-US";
   speechSynthesis.cancel();
   setTimeout(() => speechSynthesis.speak(u), 0);
 }
 
-function showPopup(game) {
+function showPopup(gameSeq) {
   const title = document.getElementById("popup-title");
   const text = document.getElementById("popup-text");
   const popup = document.getElementById("popup");
 
-  const message =
-    {
-      "Slot Machine": "Click the spin button and match three symbols to win!",
-      Roulette: "Place a bet on a number or colour, then spin the wheel.",
-      Blackjack: "Try to reach twenty-one without going over. Beat the dealer!",
-      "Lucky Spin": "Spin the wheel and try your luck for instant prizes!",
-    }[game] || "No instructions available.";
+  const bodyTag = document.querySelector("body");
+  bodyTag.style.overflow  = "hidden";
+  // const message =
+  //   {
+  //     "Slot Machine": "Click the spin button and match three symbols to win!",
+  //     Roulette: "Place a bet on a number or colour, then spin the wheel.",
+  //     Blackjack: "Try to reach twenty-one without going over. Beat the dealer!",
+  //     "Lucky Spin": "Spin the wheel and try your luck for instant prizes!",
+  //   }[game] || "No instructions available.";
 
-  title.innerText = `${game} Instructions`;
-  text.innerText = message;
+  const message = [
+    {
+      title: "Chasing Fortune",
+      desc: "You will play 5 matches for this game. Each group begins with 5 tokens, and each draw costs 1 token. If you draw a WIN card, you get back your original token plus one extra. If you draw a LOSE card, you lose 1 token. If you draw a NEARLY WIN card, you only get back your original token. If you draw a BIG WIN card, you get back your original token plus two extra.",
+    },
+    {
+      title: "Bet your way out",
+      desc: "Each team draws five cards, and the team with the higher total wins the round. The game will be played in three rounds, and the team that wins two rounds first will be the winner. The losing team MUST give the winning team 8 tokens. Then, the winning team will move on to Activity 3, while the losing team will move directly to Activity 4.",
+    },
+    {
+      title: "Double it or Lose it All",
+      desc: "Congratulations you have made it this far!\nNow‘s your chance to double however much token you have in hand.\n\nYou have 1 chance to press the buzzers.\n\n2 of 3 of the buzzers are “DOUBLE IT ALL” and one is “ LOSE IT ALL “\n\nYou win when you hear “ DOUBLE IT ALL” and lose all your money if you hear “ LOSE IT ALL. ",
+    },
+    {
+      title: "From Curiosity To Collapse",
+      desc: "Rearrange the events in the right order using the clues you have. After that, show it to the PIC.",
+    },
+  ];
+  title.innerText = `${message[gameSeq].title} Instructions`;
+  text.innerText = message[gameSeq].desc;
   popup.style.display = "flex";
-  speakMessage(message); // runs after a user click
+  // speakMessage(message); // runs after a user click
 }
 
 function closePopup(isNpc) {
+  const bodyTag = document.querySelector("body");
+  bodyTag.style.overflow  = "auto";
   document.getElementById(isNpc ? "popup-npc" : "popup").style.display = "none";
   speechSynthesis.cancel();
 }
@@ -294,7 +316,7 @@ function scanLoop() {
 
             // Redirect after 2 seconds
             setTimeout(() => {
-              const payment = sessionStorage.getItem('payment') || 0;
+              const payment = sessionStorage.getItem("payment") || 0;
               window.location.href = `success.html`; // Change to your success page
             }, 2000);
           }
@@ -314,17 +336,19 @@ function scanLoop() {
           // Extract an amount (handles "50", "RM50", "pay=50.25", etc.)
           const m = String(code.data).match(/([0-9]+(?:\.[0-9]{1,2})?)/);
           const amount = m ? parseFloat(m[1]) : NaN;
-          const isDeduct = m.input.includes('-')
+          const isDeduct = m.input.includes("-");
           if (!isNaN(amount)) {
             const balanceEl = document.querySelector("#balance-display");
             if (balanceEl) {
               const current =
                 parseFloat(balanceEl.textContent.replace(/[^\d.]/g, "")) || 0;
-              const next = isDeduct ? Math.max(0, current - amount) : Math.max(0, current + amount) ; // clamp at 0 if you want
-              balanceEl.textContent = next.toFixed(2);
+              const next = isDeduct
+                ? Math.max(0, current - amount)
+                : Math.max(0, current + amount); // clamp at 0 if you want
+              balanceEl.textContent = next;
               // persist so success.html can show it
               localStorage.setItem("balance", balanceEl.textContent);
-              sessionStorage.setItem("payment",m.input);
+              sessionStorage.setItem("payment", m.input);
             }
           }
 
@@ -389,40 +413,43 @@ document.addEventListener("visibilitychange", () => {
 });
 
 function showPopupNPC(gameSeq, isMoveStep) {
-  const title = document.getElementById("popup-npc-title");
-  const text = document.getElementById("popup-npc-text");
   const popup = document.getElementById("popup-npc");
-  const popupGameImg = document.getElementById("popup-game-img");
   const popupContainer = document.getElementById("popup-container-npc");
+  const bodyTag = document.querySelector("body");
+  bodyTag.style.overflow  = "hidden";
   const message = [
     {
       title: "Chasing Fortune",
       desc1:
         "Each group begins with 5 tokens, and each draw costs 1 token.\n\nIf you draw a WIN card, you get back your original token plus one extra (+1 token).\nIf you draw a LOSE card, you lose 1 token (–1 token).\n\nIf you draw a NEARLY WIN card, you only get back your original token (0 token).\n\nIf you draw a BIG WIN card, you get back your original token plus two extra (+2 tokens).\n",
       desc2: "Congratulations, now please move to the next station.",
-      pic: "./assets/images/npc1.jpeg",
+      pic: "./assets/images/step1-instruct.jpeg",
     },
     {
-      title: "Roulette",
-      desc: "Place a bet on a number or colour, then spin the wheel.",
-      pic: "./assets/images/Roulette.webp",
+      title: "Bet your way out",
+      desc1:
+        "Each team draws five cards, and the team with the higher total wins the round. The game will be played in three rounds, and the team that wins two rounds first will be the winner. The losing team MUST give the winning team 8 tokens. Then, the winning team will move on to Activity 3, while the losing team will move directly to Activity 4.",
+      desc2:
+        "Now, the winning team move to the right side, while the losing team move to the left side.",
+      pic: "./assets/images/step2-instruct.jpeg",
     },
     {
-      title: "",
+      title: "Double it or Lose it All",
       desc1: `Congratulations you have made it this far!
 Now‘s your chance to double however much token you have in hand.
 You have 1 chance to press the buzzers. 
 2 of 3 of the buzzers are “DOUBLE IT ALL” and one is “ LOSE IT ALL “   
 You win when you hear “ DOUBLE IT ALL” and lose all your money if you hear “ LOSE IT ALL. `,
-      pic: "./assets/images/blackjack-icon-4.jpg",
-      picInstruct1: "./assets/images/step3-instruct1.jpeg",
-      picInstruct2: "./assets/images/step3-instruct2.jpeg",
-      picInstruct3: "./assets/images/step3-instruct3.jpeg",
+      desc2:
+        "Ohhhhh, unfortunately you have lose all your tokens, now move to the last station.",
+      pic: "./assets/images/step3-instruct.jpeg",
     },
     {
-      title: "Lucky Spin",
-      desc: "Spin the wheel and try your luck for instant prizes!",
-      pic: "./assets/images/lucky-spin.avif",
+      title: "From Curiosity To Collapse",
+      desc1:
+        "Rearrange the events in the right order using the clues you have. After that, show it to the PIC.",
+      desc2: "",
+      pic: "./assets/images/step4-instruct.jpeg",
     },
   ];
 
@@ -430,36 +457,46 @@ You win when you hear “ DOUBLE IT ALL” and lose all your money if you hear �
     ? message[gameSeq].desc1
     : message[gameSeq].desc2;
   const showTitle = !isMoveStep ? `${message[gameSeq].title} Instructions` : "";
-  switch (gameSeq) {
-    case 0:
-      popupContainer.innerHTML = `<div class="img-container">
+  // switch (gameSeq) {
+  //   case 0:
+  //     popupContainer.innerHTML = `<div class="img-container">
+  //         <img id="popup-game-img" src="${message[gameSeq].pic}" />
+  //       </div>
+  //       <div class="npc-desc">
+  //         <h2 id="popup-npc-title">${showTitle}</h2>
+  //         <h5 id="popup-npc-text">${showMessage}</h5>
+  //       </div>`;
+  //     break;
+  //   // case 1:
+  //   //   popupContainer.innerHTML = `<div class="img-container">
+  //   //       <img id="popup-game-img" src="${message[gameSeq].pic}" />
+  //   //     </div>
+  //   //     <div class="npc-desc">
+  //   //       <h2 id="popup-npc-title">${showTitle}</h2>
+  //   //       <h5 id="popup-npc-text">${showMessage}</h5>
+  //   //     </div>`;
+  //   //   break;
+  //   // case 2:
+  //   //   popupContainer.innerHTML = `
+  //   //         <div class="img-container">
+  //   //           <img id="popup-game-img" src="${message[gameSeq].pic}" />
+  //   //         </div>
+  //   //         <div class="npc-desc">
+  //   //           <h5 id="popup-npc-text">${showMessage}</h5>
+  //   //         </div>`;
+  //   //   break;
+  //   default:
+  //     popupContainer.innerHTML = "";
+  // }
+  popupContainer.innerHTML = `<div class="img-container">
           <img id="popup-game-img" src="${message[gameSeq].pic}" />
         </div>
         <div class="npc-desc">
           <h2 id="popup-npc-title">${showTitle}</h2>
           <h5 id="popup-npc-text">${showMessage}</h5>
         </div>`;
-      break;
-    case 2:
-      popupContainer.innerHTML = `
-            <div class="img-container">
-              <img id="popup-game-img" src="${message[gameSeq].picInstruct1}" />
-            </div>
-             <div class="img-container">
-              <img id="popup-game-img" src="${message[gameSeq].picInstruct2}" />
-            </div>
-             <div class="img-container">
-              <img id="popup-game-img" src="${message[gameSeq].picInstruct3}" />
-            </div>
-            <div class="npc-desc">
-              <h5 id="popup-npc-text">${showMessage}</h5>
-            </div>`;
-      break;
-    default:
-      popupContainer.innerHTML = "";
-  }
 
   popup.style.display = "flex";
 
-  speakMessage(showMessage, true); // runs after a user click
+  speakMessage(showMessage); // runs after a user click
 }
