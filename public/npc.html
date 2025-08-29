@@ -58,24 +58,28 @@
       </div>
 
       <div class="header">🎰 Casino 1234</div>
-      <div class="balance">💰 Balance: $<span id="balance-display"></span></div>
+      <div class="balance">💰 Token: <span id="balance-display">0</span></div>
 
       <div class="game-area npc">
         <div class="game-card horizontal">
-          <button onclick="showPopupNPC(0)">1st button</button>
-          <button onclick="showPopupNPC(0,true)">2nd button</button>
+          <img src="./assets/images/station1.jpeg" />
+          <button onclick="showPopupNPC(0)">Station 1</button>
+          <button onclick="showPopupNPC(0,true)">Next</button>
         </div>
         <div class="game-card horizontal">
-          <button onclick="showPopupNPC(1)">1st button</button>
-          <button onclick="showPopupNPC(1,true)">2nd button</button>
+          <img src="./assets/images/station2.jpeg" />
+          <button onclick="showPopupNPC(1)">Station 2</button>
+          <button onclick="showPopupNPC(1,true)">Next</button>
         </div>
         <div class="game-card horizontal">
-          <button onclick="showPopupNPC(2)">1st button</button>
-          <button onclick="showPopupNPC(2,true)">2nd button</button>
+          <img src="./assets/images/station3.jpeg" />
+          <button onclick="showPopupNPC(2)">Station 3</button>
+          <button onclick="showPopupNPC(2,true)">Next</button>
         </div>
         <div class="game-card horizontal">
-          <button onclick="showPopupNPC(3)">1st button</button>
-          <!-- <button onclick="showPopupNPC(3,true)">2nd button</button> -->
+          <img src="./assets/images/station4.jpeg" />
+          <button onclick="showPopupNPC(3)">Station 4</button>
+          <button style="display: none;" onclick="showPopupNPC(3,true)">2nd button</button>
         </div>
       </div>
 
@@ -209,7 +213,10 @@
     <!-- App JS -->
     <script src="./assets/js/index.js"></script>
     <script>
-      const balance = sessionStorage.getItem("balance") !== "" && sessionStorage.getItem("balance") || 5;
+      const balance =
+        (sessionStorage.getItem("balance") !== "" &&
+          sessionStorage.getItem("balance")) ||
+        5;
       if (balance) {
         document.getElementById("balance-display").textContent = balance;
       } else {
