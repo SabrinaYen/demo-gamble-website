@@ -441,11 +441,7 @@ function showPopupNPC(gameSeq, isMoveStep) {
     },
     {
       title: "Double it or Lose it All",
-      desc1: `Congratulations you have made it this far!
-Now‘s your chance to double however much token you have in hand.
-You have 1 chance to press the buzzers. 
-2 of 3 of the buzzers are “DOUBLE IT ALL” and one is “ LOSE IT ALL “   
-You win when you hear “ DOUBLE IT ALL” and lose all your money if you hear “ LOSE IT ALL. `,
+      desc1: `Congratulations you have made it this far! Now‘s your chance to double however much token you have in hand. You have 1 chance to press the buzzers, 2 of 3 of the buzzers are "DOUBLE IT ALL" and one is "LOSE IT ALL" , You win when you hear "DOUBLE IT ALL" and lose all your money if you hear "LOSE IT ALL". `,
       desc2:
         "Ohhhhh, unfortunately you have lose all your tokens, now move to the last station.",
       pic: "./assets/images/step3-instruct.jpeg",
@@ -463,37 +459,7 @@ You win when you hear “ DOUBLE IT ALL” and lose all your money if you hear �
     ? message[gameSeq].desc1
     : message[gameSeq].desc2;
   const showTitle = !isMoveStep ? `${message[gameSeq].title} Instructions` : "";
-  // switch (gameSeq) {
-  //   case 0:
-  //     popupContainer.innerHTML = `<div class="img-container">
-  //         <img id="popup-game-img" src="${message[gameSeq].pic}" />
-  //       </div>
-  //       <div class="npc-desc">
-  //         <h2 id="popup-npc-title">${showTitle}</h2>
-  //         <h5 id="popup-npc-text">${showMessage}</h5>
-  //       </div>`;
-  //     break;
-  //   // case 1:
-  //   //   popupContainer.innerHTML = `<div class="img-container">
-  //   //       <img id="popup-game-img" src="${message[gameSeq].pic}" />
-  //   //     </div>
-  //   //     <div class="npc-desc">
-  //   //       <h2 id="popup-npc-title">${showTitle}</h2>
-  //   //       <h5 id="popup-npc-text">${showMessage}</h5>
-  //   //     </div>`;
-  //   //   break;
-  //   // case 2:
-  //   //   popupContainer.innerHTML = `
-  //   //         <div class="img-container">
-  //   //           <img id="popup-game-img" src="${message[gameSeq].pic}" />
-  //   //         </div>
-  //   //         <div class="npc-desc">
-  //   //           <h5 id="popup-npc-text">${showMessage}</h5>
-  //   //         </div>`;
-  //   //   break;
-  //   default:
-  //     popupContainer.innerHTML = "";
-  // }
+
   popupContainer.innerHTML = `<div class="img-container">
           <img id="popup-game-img" src="${message[gameSeq].pic}" />
         </div>
