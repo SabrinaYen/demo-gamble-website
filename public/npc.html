@@ -209,12 +209,11 @@
     <!-- App JS -->
     <script src="./assets/js/index.js"></script>
     <script>
-      // Load balance from localStorage
-      const balance = localStorage.getItem("balance");
+      const balance = sessionStorage.getItem("balance") !== "" && sessionStorage.getItem("balance") || 5;
       if (balance) {
         document.getElementById("balance-display").textContent = balance;
       } else {
-        localStorage.setItem("balance", "1000");
+        sessionStorage.setItem("balance", balance);
         document.getElementById("balance-display").textContent = balance;
       }
     </script>

@@ -13,12 +13,12 @@ window.onload = function () {
 
 function onSubmit(e) {
   e.preventDefault();
-  window.location.href = "dashboard.html";
-}
-
-function logout() {
   window.location.href = "index.html";
 }
+
+// function logout() {
+//   window.location.href = "index.html";
+// }
 
 // ===================
 // Popup + Voiceover
@@ -78,9 +78,9 @@ function showPopup(gameSeq) {
   const title = document.getElementById("popup-title");
   const text = document.getElementById("popup-text");
   const popup = document.getElementById("popup");
-
+  const img = document.getElementById("popup-game-img");
   const bodyTag = document.querySelector("body");
-  bodyTag.style.overflow  = "hidden";
+  bodyTag.style.overflow = "hidden";
   // const message =
   //   {
   //     "Slot Machine": "Click the spin button and match three symbols to win!",
@@ -92,30 +92,36 @@ function showPopup(gameSeq) {
   const message = [
     {
       title: "Chasing Fortune",
+      pic: "./assets/images/station1.jpeg",
       desc: "You will play 5 matches for this game. Each group begins with 5 tokens, and each draw costs 1 token. If you draw a WIN card, you get back your original token plus one extra. If you draw a LOSE card, you lose 1 token. If you draw a NEARLY WIN card, you only get back your original token. If you draw a BIG WIN card, you get back your original token plus two extra.",
     },
     {
       title: "Bet your way out",
+      pic: "./assets/images/station2.jpeg",
       desc: "Each team draws five cards, and the team with the higher total wins the round. The game will be played in three rounds, and the team that wins two rounds first will be the winner. The losing team MUST give the winning team 8 tokens. Then, the winning team will move on to Activity 3, while the losing team will move directly to Activity 4.",
     },
     {
       title: "Double it or Lose it All",
+      pic: "./assets/images/station3.jpeg",
       desc: "Congratulations you have made it this far!\nNow‘s your chance to double however much token you have in hand.\n\nYou have 1 chance to press the buzzers.\n\n2 of 3 of the buzzers are “DOUBLE IT ALL” and one is “ LOSE IT ALL “\n\nYou win when you hear “ DOUBLE IT ALL” and lose all your money if you hear “ LOSE IT ALL. ",
     },
     {
       title: "From Curiosity To Collapse",
+      pic: "./assets/images/station4.jpeg",
       desc: "Rearrange the events in the right order using the clues you have. After that, show it to the PIC.",
     },
   ];
+
   title.innerText = `${message[gameSeq].title} Instructions`;
   text.innerText = message[gameSeq].desc;
+  img.src = message[gameSeq].pic;
   popup.style.display = "flex";
   // speakMessage(message); // runs after a user click
 }
 
 function closePopup(isNpc) {
   const bodyTag = document.querySelector("body");
-  bodyTag.style.overflow  = "auto";
+  bodyTag.style.overflow = "auto";
   document.getElementById(isNpc ? "popup-npc" : "popup").style.display = "none";
   speechSynthesis.cancel();
 }
@@ -147,7 +153,7 @@ function closeQR() {
   stopCamera();
   qrScreenEl.style.display = "none";
   dashboardEl.style.display = "block";
-  window.location.href = "/dashboard.html";
+  window.location.href = "/index.html";
 }
 
 // ===================
@@ -347,7 +353,7 @@ function scanLoop() {
                 : Math.max(0, current + amount); // clamp at 0 if you want
               balanceEl.textContent = next;
               // persist so success.html can show it
-              localStorage.setItem("balance", balanceEl.textContent);
+              sessionStorage.setItem("balance", balanceEl.textContent);
               sessionStorage.setItem("payment", m.input);
             }
           }
@@ -416,7 +422,7 @@ function showPopupNPC(gameSeq, isMoveStep) {
   const popup = document.getElementById("popup-npc");
   const popupContainer = document.getElementById("popup-container-npc");
   const bodyTag = document.querySelector("body");
-  bodyTag.style.overflow  = "hidden";
+  bodyTag.style.overflow = "hidden";
   const message = [
     {
       title: "Chasing Fortune",

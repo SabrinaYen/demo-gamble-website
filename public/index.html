@@ -3,25 +3,240 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <link  rel="stylesheet" href="./assets/css/index.css"></link>
+    <title>Welcome Casino 1234</title>
+    <link rel="stylesheet" href="./assets/css/dashboard.css" />
   </head>
   <body>
-    <div class="container">
-        <h1>Welcome Casino 1234!! </h1>
-        <h3>Join us for more promotions and member benefits. You might stand a chance to win $1000 by logging in.</h3>
-      <form onsubmit="onSubmit(event)">
-          <input id="id" placeholder="Enter Your ID" type="text"/>
-          <input id="password" type="password" placeholder="Password" />
-          <button type="submit">SUBMIT</button>
-      </form>
+    <!-- ===== DASHBOARD SCREEN ===== -->
+    <div id="dashboard">
+      <div class="top-nav nav-bar">
+        <a href="#" class="nav-link"> 🎰 Casino 1234 </a>
+        <a href="#" class="nav-link">
+          <svg width="20" height="20" viewBox="0 0 24 24">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+          </svg>
+          Home
+        </a>
+        <a href="#" class="nav-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="white"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M6 15v-2h2v-2H6v-2H4v2H2v2h2v2h2zm10.5-4c-.828 0-1.5.672-1.5 1.5S15.672 14 16.5 14s1.5-.672 1.5-1.5S17.328 11 16.5 11zm3 0c-.828 0-1.5.672-1.5 1.5S18.672 14 19.5 14s1.5-.672 1.5-1.5S20.328 11 19.5 11zM7 20c-2.757 0-5-2.243-5-5v-3c0-3.314 2.686-6 6-6h8c3.314 0 6 2.686 6 6v3c0 2.757-2.243 5-5 5h-1l-2-2h-4l-2 2H7z"
+            />
+          </svg>
+          Games
+        </a>
+        <a href="#" class="nav-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="white"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M20 7h-2.586l1.293-1.293a1 1 0 0 0-1.414-1.414L16 5.586 14.707 4.293a1 1 0 1 0-1.414 1.414L14.586 7H9.414l1.293-1.293a1 1 0 1 0-1.414-1.414L8 5.586 6.707 4.293a1 1 0 1 0-1.414 1.414L6.586 7H4a2 2 0 0 0-2 2v2h20V9a2 2 0 0 0-2-2zM2 13v7a2 2 0 0 0 2 2h5v-9H2zm7 0v9h6v-9H9zm8 0v9h5a2 2 0 0 0 2-2v-7h-7z"
+            />
+          </svg>
+          Promo
+        </a>
+        <!-- use class nav-qr (ID must be unique; we have two QR links) -->
+        <a href="#" class="nav-link nav-qr">
+          <svg width="20" height="20" viewBox="0 0 24 24">
+            <path
+              d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8 0h8v8h-8V5zm2 2v4h4V7h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm10 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-4 4h2v2h-2v-2zm4 0h2v2h-2v-2z"
+            />
+          </svg>
+          QR
+        </a>
+      </div>
+
+      <div class="header">🎰 Casino 1234</div>
+      <div class="balance">💰 Token: <span id="balance-display">0</span></div>
+
+      <div class="game-area">
+        <div class="game-card">
+          <img
+            src="./assets/images/station1.jpeg"
+            alt="Chasing Fortune"
+            onclick="showPopup(0)"
+          />
+          <p>Chasing Fortune</p>
+        </div>
+        <div class="game-card">
+          <img
+            src="./assets/images/station2.jpeg"
+            alt="Bet your way out"
+            onclick="showPopup(1)"
+          />
+          <p>Bet your way out</p>
+        </div>
+        <div class="game-card">
+          <img
+            src="./assets/images/station3.jpeg"
+            alt="Blackjack"
+            onclick="showPopup(2)"
+          />
+          <p>Blackjack</p>
+        </div>
+        <div class="game-card">
+          <img
+            src="./assets/images/station4.jpeg"
+            alt="Lucky Spin"
+            onclick="showPopup(3)"
+          />
+          <p>Lucky Spin</p>
+        </div>
+      </div>
+
+      <!-- Modal Popup -->
+      <div id="popup" class="popup" style="display: none">
+        <div class="popup-content">
+          <span class="close" onclick="closePopup()">&times;</span>
+          <div class="img-container">
+            <img id="popup-game-img" src="" />
+          </div>
+          <div class="desc-container">
+            <h2 id="popup-title"></h2>
+            <h5 id="popup-text"></h5>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Navigation Bar -->
+      <div class="bottom-nav nav-bar">
+        <a href="#" class="nav-link">
+          <svg width="20" height="20" viewBox="0 0 24 24">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+          </svg>
+          Home
+        </a>
+        <a href="#" class="nav-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="white"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M6 15v-2h2v-2H6v-2H4v2H2v2h2v2h2zm10.5-4c-.828 0-1.5.672-1.5 1.5S15.672 14 16.5 14s1.5-.672 1.5-1.5S17.328 11 16.5 11zm3 0c-.828 0-1.5.672-1.5 1.5S18.672 14 19.5 14s1.5-.672 1.5-1.5S20.328 11 19.5 11zM7 20c-2.757 0-5-2.243-5-5v-3c0-3.314 2.686-6 6-6h8c3.314 0 6 2.686 6 6v3c0 2.757-2.243 5-5 5h-1l-2-2h-4l-2 2H7z"
+            />
+          </svg>
+          Games
+        </a>
+        <a href="#" class="nav-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="white"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M20 7h-2.586l1.293-1.293a1 1 0 0 0-1.414-1.414L16 5.586 14.707 4.293a1 1 0 1 0-1.414 1.414L14.586 7H9.414l1.293-1.293a1 1 0 1 0-1.414-1.414L8 5.586 6.707 4.293a1 1 0 1 0-1.414 1.414L6.586 7H4a2 2 0 0 0-2 2v2h20V9a2 2 0 0 0-2-2zM2 13v7a2 2 0 0 0 2 2h5v-9H2zm7 0v9h6v-9H9zm8 0v9h5a2 2 0 0 0 2-2v-7h-7z"
+            />
+          </svg>
+          Promo
+        </a>
+        <a href="#" class="nav-link nav-qr">
+          <svg width="20" height="20" viewBox="0 0 24 24">
+            <path
+              d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8 0h8v8h-8V5zm2 2v4h4V7h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm10 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-4 4h2v2h-2v-2zm4 0h2v2h-2v-2z"
+            />
+          </svg>
+          QR
+        </a>
+      </div>
     </div>
+    <!-- END #dashboard -->
+
+    <!-- ===== QR SCANNER SCREEN ===== -->
+    <div
+      id="qr-screen"
+      style="
+        display: none;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+      "
+    >
+      <div class="back-container">
+        <button
+          id="qrBackBtn"
+          style="
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: none;
+            color: #999;
+            border: none;
+            z-index: 1;
+          "
+        >
+          ← Back
+        </button>
+        Scan To Pay
+      </div>
+
+      <div
+        class="wrap"
+        style="
+          position: relative;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <video
+          id="video"
+          autoplay
+          playsinline
+          muted
+          style="width: 100%; height: 100%; object-fit: cover"
+        ></video>
+        <div class="cover"></div>
+        <canvas id="overlay" style="position: absolute"></canvas>
+      </div>
+      <div class="bottom-desc">
+        <p>Scan to unlock more promos and rewards!</p>
+      </div>
+      <div style="display: none">
+        <button id="startBtn">Start Camera</button>
+        <button id="stopBtn" disabled>Stop</button>
+        <label>
+          <input
+            id="fileInput"
+            type="file"
+            accept="image/*"
+            capture="environment"
+            style="display: none"
+          />
+          <button id="pickBtn" type="button">Scan from Photo</button>
+        </label>
+      </div>
+    </div>
+
+    <!-- jsQR CDN -->
+    <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
+    <!-- App JS -->
+    <script src="./assets/js/index.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const script = document.createElement("script");
-        script.src = "./assets/js/index.js"; // path to your JS file
-        document.body.appendChild(script);
-      });
+      const balance = sessionStorage.getItem("balance") !== "" && sessionStorage.getItem("balance")|| 5;
+      if (balance) {
+        document.getElementById("balance-display").textContent = balance;
+      } else {
+        sessionStorage.setItem("balance", balance);
+        document.getElementById("balance-display").textContent = balance;
+      }
     </script>
   </body>
 </html>
