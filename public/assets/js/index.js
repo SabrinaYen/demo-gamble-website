@@ -1,8 +1,8 @@
 // put this near your other globals
 let isProcessingScan = false;
 let lastCode = null;
-let voice;
-voice = new p5.Speech();
+// let voice;
+// voice = new p5.Speech();
 // ===================
 // Login/logout (optional)
 // ===================
@@ -471,7 +471,9 @@ function showPopupNPC(gameSeq, isMoveStep) {
         </div>`;
 
   popup.style.display = "flex";
-  voice.setVoice("Google UK English Female");
-  voice.speak(showMessage);
+  console.log(responsiveVoice)
+  // responsiveVoice.setVoice("Google UK English Female");
+  // voice.speak(showMessage);
+  responsiveVoice.speak(showMessage);
   // speakMessage(showMessage); // temporary off due to not suitable
 }
