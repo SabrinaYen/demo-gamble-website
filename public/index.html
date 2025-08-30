@@ -87,10 +87,10 @@
         <div class="game-card">
           <img
             src="./assets/images/station4.jpeg"
-            alt="Lucky Spin"
+            alt="From Curiosity To Collapse"
             onclick="showPopup(3)"
           />
-          <p>Lucky Spin</p>
+          <p>From Curiosity To Collapse</p>
         </div>
       </div>
 
@@ -230,7 +230,10 @@
     <!-- App JS -->
     <script src="./assets/js/index.js"></script>
     <script>
-      const balance = sessionStorage.getItem("balance") !== "" && sessionStorage.getItem("balance")|| 5;
+      const balance =
+        (sessionStorage.getItem("balance") !== "" &&
+          sessionStorage.getItem("balance")) ||
+        5;
       if (balance) {
         document.getElementById("balance-display").textContent = balance;
       } else {
