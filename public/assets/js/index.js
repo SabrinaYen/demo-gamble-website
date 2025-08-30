@@ -474,6 +474,6 @@ function showPopupNPC(gameSeq, isMoveStep) {
   console.log(responsiveVoice)
   // responsiveVoice.setVoice("Google UK English Female");
   // voice.speak(showMessage);
-  responsiveVoice.speak(showMessage);
+  responsiveVoice.speak(showMessage,'UK English Female');
   // speakMessage(showMessage); // temporary off due to not suitable
 }
