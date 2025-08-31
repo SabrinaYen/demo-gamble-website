@@ -1,8 +1,6 @@
-// put this near your other globals
 let isProcessingScan = false;
 let lastCode = null;
-// let voice;
-// voice = new p5.Speech();
+let audio;
 // ===================
 // Login/logout (optional)
 // ===================
@@ -18,64 +16,6 @@ function onSubmit(e) {
   window.location.href = "index.html";
 }
 
-// function logout() {
-//   window.location.href = "index.html";
-// }
-
-// ===================
-// Popup + Voiceover
-// ===================
-let selectedVoice = null;
-
-function pickVoice(voices) {
-  const byName = (n) => voices.find((v) => v.name?.toLowerCase().includes(n));
-  return (
-    byName("samantha") ||
-    byName("victoria") ||
-    voices.find(
-      (v) =>
-        v.lang === "en-US" &&
-        !/alex|fred|daniel|arthur|male/i.test(v.name || "")
-    ) ||
-    voices.find((v) => v.lang?.startsWith("en")) ||
-    voices[0] ||
-    null
-  );
-}
-
-function loadVoicesOnce() {
-  const voices = speechSynthesis.getVoices();
-  if (voices && voices.length) {
-    selectedVoice = pickVoice(voices);
-    return true;
-  }
-  return false;
-}
-
-async function ensureVoices() {
-  if (loadVoicesOnce()) return;
-  await new Promise((resolve) => {
-    const handler = () => {
-      if (loadVoicesOnce()) {
-        speechSynthesis.onvoiceschanged = null;
-        resolve();
-      }
-    };
-    speechSynthesis.onvoiceschanged = handler;
-    setTimeout(handler, 1500);
-  });
-}
-
-async function speakMessage(message, isFast) {
-  await ensureVoices();
-  const u = new SpeechSynthesisUtterance(message);
-  if (selectedVoice) u.voice = selectedVoice;
-  u.rate = 0.7;
-  u.lang = "en-US";
-  speechSynthesis.cancel();
-  setTimeout(() => speechSynthesis.speak(u), 0);
-}
-
 function showPopup(gameSeq) {
   const title = document.getElementById("popup-title");
   const text = document.getElementById("popup-text");
@@ -83,13 +23,6 @@ function showPopup(gameSeq) {
   const img = document.getElementById("popup-game-img");
   const bodyTag = document.querySelector("body");
   bodyTag.style.overflow = "hidden";
-  // const message =
-  //   {
-  //     "Slot Machine": "Click the spin button and match three symbols to win!",
-  //     Roulette: "Place a bet on a number or colour, then spin the wheel.",
-  //     Blackjack: "Try to reach twenty-one without going over. Beat the dealer!",
-  //     "Lucky Spin": "Spin the wheel and try your luck for instant prizes!",
-  //   }[game] || "No instructions available.";
 
   const message = [
     {
@@ -125,7 +58,7 @@ function closePopup(isNpc) {
   const bodyTag = document.querySelector("body");
   bodyTag.style.overflow = "auto";
   document.getElementById(isNpc ? "popup-npc" : "popup").style.display = "none";
-  speechSynthesis.cancel();
+  audio.pause();
 }
 
 // ===================
@@ -432,6 +365,8 @@ function showPopupNPC(gameSeq, isMoveStep) {
         "Each group begins with 5 tokens, and each draw costs 1 token.\n\nIf you draw a WIN card, you get back your original token plus one extra (+1 token).\nIf you draw a LOSE card, you lose 1 token (–1 token).\n\nIf you draw a NEARLY WIN card, you only get back your original token (0 token).\n\nIf you draw a BIG WIN card, you get back your original token plus two extra (+2 tokens).\n",
       desc2: "Congratulations, now please move to the next station.",
       pic: "./assets/images/step1-instruct.jpeg",
+      audio1: "./assets/audio/step1-instruct1.mp3",
+      audio2: "./assets/audio/step1-instruct2.mp3",
     },
     {
       title: "Bet your way out",
@@ -440,13 +375,17 @@ function showPopupNPC(gameSeq, isMoveStep) {
       desc2:
         "Now, the winning team move to the right side, while the losing team move to the left side.",
       pic: "./assets/images/step2-instruct.jpeg",
+      audio1: "./assets/audio/step2-instruct1.mp3",
+      audio2: "./assets/audio/step2-instruct2.mp3",
     },
     {
       title: "Double it or Lose it All",
-      desc1: `Congratulations you have made it this far! Now‘s your chance to double however much token you have in hand. You have 1 chance to press the buzzers, 2 of 3 of the buzzers are "DOUBLE it ALL" ,and one is "LOSE IT ALL" , You win when you hear "DOUBLE it ALL" ,and lose all your money if you hear "LOSE IT ALL". `,
+      desc1: `Congratulations you have made it this far! Now‘s your chance to double however much token you have in hand. You have 1 chance to press the buzzers. 2 of 3 of the buzzers are "DOUBLE IT ALL" and one is "LOSE IT ALL". You win when you hear "DOUBLE it ALL" and lose all your money if you hear "LOSE IT ALL". `,
       desc2:
         "Ohhhhh, unfortunately you have lose all your tokens, now move to the last station.",
       pic: "./assets/images/step3-instruct.jpeg",
+      audio1: "./assets/audio/step3-instruct1.mp3",
+      audio2: "./assets/audio/step3-instruct2.mp3",
     },
     {
       title: "From Curiosity To Collapse",
@@ -454,6 +393,7 @@ function showPopupNPC(gameSeq, isMoveStep) {
         "Rearrange the events in the right order using the clues you have. After that, show it to the PIC.",
       desc2: "",
       pic: "./assets/images/step4-instruct.jpeg",
+      audio1: "./assets/audio/step4-instruct1.mp3",
     },
   ];
 
@@ -471,9 +411,11 @@ function showPopupNPC(gameSeq, isMoveStep) {
         </div>`;
 
   popup.style.display = "flex";
-  console.log(responsiveVoice)
-  // responsiveVoice.setVoice("Google UK English Female");
-  // voice.speak(showMessage);
-  responsiveVoice.speak(showMessage,'UK English Female');
-  // speakMessage(showMessage); // temporary off due to not suitable
+  const playAudio = !isMoveStep
+    ? message[gameSeq].audio1
+    : message[gameSeq].audio2;
+
+  audio = new Audio(playAudio);
+  audio.currentTime = 0; // restart if already playing
+  audio.play();
 }

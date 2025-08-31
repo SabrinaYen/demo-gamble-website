@@ -69,7 +69,6 @@
 <script>
   const displayAmount = document.getElementById('qrText');
   displayAmount.innerHTML = sessionStorage.getItem('payment');
-  // Optional: redirect after 3 seconds
   setTimeout(() => {
     sessionStorage.removeItem('payment')
     window.location.href = "index.html"; // change to your target page
