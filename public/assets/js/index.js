@@ -361,8 +361,7 @@ function showPopupNPC(gameSeq, isMoveStep) {
   const message = [
     {
       title: "Chasing Fortune",
-      desc1:
-        "Each group begins with 5 tokens, and each draw costs 1 token.\n\nIf you draw a WIN card, you get back your original token plus one extra (+1 token).\nIf you draw a LOSE card, you lose 1 token (–1 token).\n\nIf you draw a NEARLY WIN card, you only get back your original token (0 token).\n\nIf you draw a BIG WIN card, you get back your original token plus two extra (+2 tokens).\n",
+      desc1: "You will play 5 matches for this game. Each group begins with 5 tokens, and each draw costs 1 token. \n\n If you draw a WIN card, you get back your original token plus one extra.\n If you draw a LOSE card, you lose 1 token.\n\n If you draw a NEARLY WIN card, you only get back your original token.\n\n If you draw a BIG WIN card, you get back your original token plus two extra.",
       desc2: "Congratulations, now please move to the next station.",
       pic: "./assets/images/step1-instruct.jpeg",
       audio1: "./assets/audio/step1-instruct1.mp3",
