@@ -38,7 +38,7 @@ function showPopup(gameSeq) {
     {
       title: "Double it or Lose it All",
       pic: "./assets/images/step3-instruct.jpeg",
-      desc: "Congratulations you have made it this far!\nNow‘s your chance to double however much token you have in hand.\n\nYou have 1 chance to press the buzzers.\n\n2 of 3 of the buzzers are “DOUBLE IT ALL” and one is “ LOSE IT ALL “\n\nYou win when you hear “ DOUBLE IT ALL” and lose all your money if you hear “ LOSE IT ALL. ",
+      desc: "Congratulations you have made it this far!<br>Now‘s your chance to double however much token you have in hand.<br><br>You have 1 chance to press the buzzers.<br><br>2 of 3 of the buzzers are “DOUBLE IT ALL” and one is “ LOSE IT ALL “<br><br>You win when you hear “ DOUBLE IT ALL” and lose all your money if you hear “ LOSE IT ALL. ",
     },
     {
       title: "From Curiosity To Collapse",
@@ -361,7 +361,7 @@ function showPopupNPC(gameSeq, isMoveStep) {
   const message = [
     {
       title: "Chasing Fortune",
-      desc1: "You will play 5 matches for this game. Each group begins with 5 tokens, and each draw costs 1 token. \n\n If you draw a WIN card, you get back your original token plus one extra.\n If you draw a LOSE card, you lose 1 token.\n\n If you draw a NEARLY WIN card, you only get back your original token.\n\n If you draw a BIG WIN card, you get back your original token plus two extra.",
+      desc1: "You will play 5 matches for this game. Each group begins with 5 tokens, and each draw costs 1 token. <br><br> If you draw a WIN card, you get back your original token plus one extra.<br> If you draw a LOSE card, you lose 1 token.<br><br> If you draw a NEARLY WIN card, you only get back your original token.<br><br> If you draw a BIG WIN card, you get back your original token plus two extra.",
       desc2: "Congratulations, now please move to the next station.",
       pic: "./assets/images/step1-instruct.jpeg",
       audio1: "./assets/audio/step1-instruct1.mp3",
