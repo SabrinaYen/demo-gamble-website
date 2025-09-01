@@ -38,7 +38,7 @@ function showPopup(gameSeq) {
     {
       title: "Double it or Lose it All",
       pic: "./assets/images/step3-instruct.jpeg",
-      desc: "Congratulations you have made it this far!<br>Now‘s your chance to double however much token you have in hand.<br><br>You have 1 chance to press the buzzers.<br><br>2 of 3 of the buzzers are “DOUBLE IT ALL” and one is “ LOSE IT ALL “<br><br>You win when you hear “ DOUBLE IT ALL” and lose all your money if you hear “ LOSE IT ALL. ",
+      desc: "Congratulations you have made it this far!\nNow‘s your chance to double however much token you have in hand.\n\nYou have 1 chance to press the buzzers.\n\n2 of 3 of the buzzers are “DOUBLE IT ALL” and one is “ LOSE IT ALL “\n\nYou win when you hear “ DOUBLE IT ALL” and lose all your money if you hear “ LOSE IT ALL. ",
     },
     {
       title: "From Curiosity To Collapse",
